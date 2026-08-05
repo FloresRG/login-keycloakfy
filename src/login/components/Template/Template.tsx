@@ -70,7 +70,8 @@ export function Template(props: TemplateProps) {
                             {...props}
                             logoWhiteUrl={logoWhiteUrl}
                             logoDarkUrl={logoDarkUrl}
-                            cardClassName="border bg-card shadow-sm"
+                            /* Modificado para lograr las esquinas redondeadas y la sombra pronunciada de la imagen */
+                            cardClassName="border border-border/40 bg-card rounded-3xl shadow-xl p-8 max-w-sm w-full mx-auto"
                         />
                     }
                 />
@@ -100,7 +101,7 @@ export function Template(props: TemplateProps) {
                             logoWhiteUrl={logoWhiteUrl}
                             logoDarkUrl={logoDarkUrl}
                             brandingVisibilityClassName="lg:hidden"
-                            cardClassName="border-0 shadow-none bg-transparent md:border md:bg-card md:shadow-sm"
+                            cardClassName="border border-border/40 bg-card rounded-3xl shadow-xl p-8"
                         />
                     }
                     logoUrl={logoDarkUrl}

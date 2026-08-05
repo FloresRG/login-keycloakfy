@@ -73,28 +73,41 @@
 :root {
     --theme-font: var(--keycloakify-shadcn-font, var(--font-geist));
 
-    --radius: var(--keycloakify-shadcn-radius, 0.625rem);
-    --background: var(--keycloakify-shadcn-background, oklch(1 0 0));
-    --foreground: var(--keycloakify-shadcn-foreground, oklch(0.145 0 0));
+    --radius: var(--keycloakify-shadcn-radius, 1.5rem);
+    
+    /* Fondo principal gris muy claro / blanco azulado */
+    --background: var(--keycloakify-shadcn-background, oklch(0.98 0.005 240));
+    
+    /* Texto principal: Azul Marino Profundo (#0B2545) */
+    --foreground: var(--keycloakify-shadcn-foreground, oklch(0.24 0.06 240));
+    
+    /* Tarjeta Blanca */
     --card: var(--keycloakify-shadcn-card, oklch(1 0 0));
-    --card-foreground: var(--keycloakify-shadcn-card-foreground, oklch(0.145 0 0));
+    --card-foreground: var(--keycloakify-shadcn-card-foreground, oklch(0.24 0.06 240));
+    
     --popover: var(--keycloakify-shadcn-popover, oklch(1 0 0));
-    --popover-foreground: var(--keycloakify-shadcn-popover-foreground, oklch(0.145 0 0));
-    --primary: var(--keycloakify-shadcn-primary, oklch(0.205 0 0));
-    --primary-foreground: var(--keycloakify-shadcn-primary-foreground, oklch(0.985 0 0));
-    --secondary: var(--keycloakify-shadcn-secondary, oklch(0.97 0 0));
-    --secondary-foreground: var(
-        --keycloakify-shadcn-secondary-foreground,
-        oklch(0.205 0 0)
-    );
-    --muted: var(--keycloakify-shadcn-muted, oklch(0.97 0 0));
-    --muted-foreground: var(--keycloakify-shadcn-muted-foreground, oklch(0.556 0 0));
-    --accent: var(--keycloakify-shadcn-accent, oklch(0.97 0 0));
-    --accent-foreground: var(--keycloakify-shadcn-accent-foreground, oklch(0.205 0 0));
+    --popover-foreground: var(--keycloakify-shadcn-popover-foreground, oklch(0.24 0.06 240));
+    
+    /* Color Primario: Azul Marino */
+    --primary: var(--keycloakify-shadcn-primary, oklch(0.28 0.08 240));
+    --primary-foreground: var(--keycloakify-shadcn-primary-foreground, oklch(1 0 0));
+    
+    /* Color Secundario / Acento: Dorado (#D49B35) */
+    --secondary: var(--keycloakify-shadcn-secondary, oklch(0.70 0.14 75));
+    --secondary-foreground: var(--keycloakify-shadcn-secondary-foreground, oklch(0.24 0.06 240));
+    
+    --muted: var(--keycloakify-shadcn-muted, oklch(0.96 0.01 240));
+    --muted-foreground: var(--keycloakify-shadcn-muted-foreground, oklch(0.45 0.03 240));
+    
+    --accent: var(--keycloakify-shadcn-accent, oklch(0.96 0.01 240));
+    --accent-foreground: var(--keycloakify-shadcn-accent-foreground, oklch(0.24 0.06 240));
+    
     --destructive: oklch(0.577 0.245 27.325);
-    --border: var(--keycloakify-shadcn-border, oklch(0.922 0 0));
-    --input: var(--keycloakify-shadcn-input, oklch(0.922 0 0));
-    --ring: var(--keycloakify-shadcn-ring, oklch(0.708 0 0));
+    
+    /* Borde sutil para líneas horizontales */
+    --border: var(--keycloakify-shadcn-border, oklch(0.88 0.01 240));
+    --input: var(--keycloakify-shadcn-input, oklch(0.88 0.01 240));
+    --ring: var(--keycloakify-shadcn-ring, oklch(0.70 0.14 75));
 }
 
 .dark {
