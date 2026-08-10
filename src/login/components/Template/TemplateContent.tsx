@@ -1,7 +1,7 @@
 import { cn } from "@/components/lib/utils";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
     Tooltip,
     TooltipContent,
@@ -32,14 +32,11 @@ export function TemplateContent(props: TemplateContentProps) {
         socialProvidersNode = null,
         infoNode = null,
         children,
-        logoWhiteUrl,
-        logoDarkUrl,
-        cardClassName,
-        brandingVisibilityClassName
+        cardClassName
     } = props;
 
     const { kcContext } = useKcContext();
-    const { auth, url, message, isAppInitiatedAction, realm } = kcContext;
+    const { auth, url, message, isAppInitiatedAction } = kcContext;
     const { msg, msgStr } = useI18n();
     const { kcClsx } = useKcClsx();
 
@@ -48,7 +45,9 @@ export function TemplateContent(props: TemplateContentProps) {
         auth.showUsername &&
         !auth.showResetCredentials
     ) ? (
-        <h1 className="text-xl">{headerNode}</h1>
+        <h1 className="text-2xl font-bold text-[#0c2340] dark:text-white tracking-tight text-center">
+            {headerNode || "Inicia sesión"}
+        </h1>
     ) : (
         <div id="kc-username" className="flex items-center justify-between gap-2">
             <div className="flex gap-4 items-center">
@@ -86,60 +85,52 @@ export function TemplateContent(props: TemplateContentProps) {
     );
 
     return (
-        <Card className={cardClassName}>
-            <CardHeader>
-                <div
-                    className={cn(
-                        "flex flex-col items-center justify-center gap-3",
-                        brandingVisibilityClassName
-                    )}
-                >
-                    <div className="flex items-center gap-3 mb-4 ">
-                        <img src={logoWhiteUrl} className="size-14 dark:hidden" />
-                        <img
-                            src={logoDarkUrl}
-                            className="size-14 hidden dark:inline-block"
-                        />
-                        {realm.displayNameHtml ? (
-                            <span
-                                className="text-xl"
-                                dangerouslySetInnerHTML={{
-                                    __html: kcSanitize(realm.displayNameHtml)
-                                }}
-                            />
-                        ) : (
-                            <span className="text-xl">
-                                {realm.displayName || realm.name}
-                            </span>
-                        )}
+        <Card
+            className={cn(
+                /* Tarjeta Glassmorphism Ultra Fina */
+                "backdrop-blur-xl bg-white/45 dark:bg-slate-900/40",
+                "rounded-[2.5rem] px-8 py-8",
+                "border border-white/70 dark:border-white/20",
+                "shadow-[0_20px_50px_rgba(15,23,42,0.15),inset_0_1px_2px_rgba(255,255,255,0.9)]",
+                "w-full max-w-md mx-auto transition-all",
+                cardClassName
+            )}
+        >
+            {/* Avatar Central con Ondas Concéntricas */}
+            <div className="flex justify-center mb-4">
+                <div className="relative flex items-center justify-center p-3">
+                    {/* Anillos de ondas suaves detrás del avatar */}
+                    <div className="absolute inset-0 rounded-full border border-blue-400/20 scale-125" />
+                    <div className="absolute inset-0 rounded-full border border-blue-400/30 scale-110" />
+
+                    {/* Círculo blanco translúcido principal */}
+                    <div className="relative z-10 w-20 h-20 rounded-full bg-white/90 dark:bg-slate-800/90 shadow-md border border-white flex items-center justify-center text-[#1d4ed8]">
+                        <User className="w-10 h-10 stroke-[2.2]" />
                     </div>
                 </div>
+            </div>
 
-                <CardTitle>
-                    {displayRequiredFields ? (
-                        <div className="flex items-center justify-between gap-2">
-                            <div>{titleNode}</div>
-                            <div>
-                                <span className="subtitle">
-                                    <span className="text-red-500" aria-hidden="true">
-                                        *
-                                    </span>
-                                    {msg("requiredFields")}
-                                </span>
-                            </div>
-                        </div>
-                    ) : (
-                        titleNode
-                    )}
-                </CardTitle>
+            <CardHeader className="p-0 text-center mb-6">
+                <div className="flex flex-col items-center">
+                    {titleNode}
+                    {/* Línea decorativa dorada inferior */}
+                    <div className="w-8 h-[3px] bg-[#d97706] rounded-full mt-2 mb-2" />
+                </div>
+
+                <p className="text-xs font-normal text-slate-600 dark:text-slate-300">
+                    Accede a tu cuenta institucional
+                </p>
             </CardHeader>
 
-            <CardContent>
+            <CardContent className="p-0">
                 <div id="kc-content" className="flex flex-col gap-4">
                     {displayMessage &&
                         message !== undefined &&
                         (message.type !== "warning" || !isAppInitiatedAction) && (
-                            <Alert variant={message.type}>
+                            <Alert 
+                                variant={message.type} 
+                                className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-white/80 rounded-2xl"
+                            >
                                 <AlertDescription>
                                     <span
                                         dangerouslySetInnerHTML={{
@@ -151,6 +142,8 @@ export function TemplateContent(props: TemplateContentProps) {
                         )}
 
                     {socialProvidersNode}
+                    
+                    {/* Contenido del Formulario (Inputs, Remember Me, Botón Submit) */}
                     {children}
 
                     {auth !== undefined && auth.showTryAnotherWayLink && (
@@ -163,7 +156,7 @@ export function TemplateContent(props: TemplateContentProps) {
                                 <input type="hidden" name="tryAnotherWay" value="on" />
                                 <Button
                                     type="button"
-                                    className="w-full"
+                                    className="w-full bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/60 hover:bg-white/70 shadow-sm rounded-xl"
                                     variant="outline"
                                     asChild
                                 >
@@ -185,7 +178,18 @@ export function TemplateContent(props: TemplateContentProps) {
                         </form>
                     )}
 
-                    {displayInfo && <div className="text-center text-sm">{infoNode}</div>}
+                    {displayInfo && (
+                        <div className="text-center text-xs text-slate-600 dark:text-slate-400 mt-1 font-medium">
+                            {infoNode}
+                        </div>
+                    )}
+
+                    {/* Enlaces al Pie de la Tarjeta */}
+                    <div className="flex items-center justify-center gap-2 pt-4 text-xs font-medium text-slate-600 dark:text-slate-300">
+                        <a href="#" className="hover:underline hover:text-blue-700">Ver Tutoriales</a>
+                        <span>|</span>
+                        <a href="#" className="hover:underline hover:text-blue-700">Manual de Usuario</a>
+                    </div>
                 </div>
             </CardContent>
         </Card>

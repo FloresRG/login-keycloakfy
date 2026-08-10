@@ -4,9 +4,12 @@ import type { ReactNode } from "react";
 import { useEffect } from "react";
 import defaultLogo from "../../assets/img/logo_2.png";
 
-// Importación directa de imágenes locales desde tu carpeta de assets
-import bgLightImg from "../../assets/login/login_blanco.png"; // Ajusta la extensión (.png/.jpg) según tu archivo
-import bgDarkImg from "../../assets/login/login_negro.jpeg";   // Ajusta la extensión (.png/.jpg) según tu archivo
+// Importación directa de tus imágenes desde assets/login/
+// NOTA: Si tus archivos tienen otra extensión (ej: .png en vez de .jpg), cámbiala aquí
+import bgLightImg from "../../assets/login/login_blanco.png";
+import bgDarkImg from "../../assets/login/login_negro.png";
+import posgradoLogoLight from "../../assets/login/posgrado_logo_blanco.png";
+import posgradoLogoDark from "../../assets/login/posgrado_logo_negro.png";
 
 import { useI18n } from "../../i18n";
 import { useKcContext } from "../../KcContext";
@@ -73,8 +76,7 @@ export function Template(props: TemplateProps) {
                             {...props}
                             logoWhiteUrl={logoWhiteUrl}
                             logoDarkUrl={logoDarkUrl}
-                            // En Template.tsx -> case "two-column":
-cardClassName="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-slate-200/50 dark:border-slate-800/50 w-full"
+                            cardClassName="border border-border/40 bg-card rounded-3xl shadow-xl p-8 max-w-sm w-full mx-auto"
                         />
                     }
                 />
@@ -101,14 +103,17 @@ cardClassName="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl sha
                     lightBgUrl={bgLightImg}
                     darkBgUrl={bgDarkImg}
                     logoUrl={logoDarkUrl}
+                    // Pasamos los logos de posgrado al layout
+                    posgradoLogoLightUrl={posgradoLogoLight}
+                    posgradoLogoDarkUrl={posgradoLogoDark}
                     content={
                         <TemplateContent
                             {...props}
                             logoWhiteUrl={logoWhiteUrl}
                             logoDarkUrl={logoDarkUrl}
                             brandingVisibilityClassName="lg:hidden"
-                            /* Tarjeta blanca/oscura de Shadcn perfectamente limpia */
-                            cardClassName="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 border border-slate-200 dark:border-slate-800 w-full"
+                            /* Efecto Cristal (Glassmorphism) con borde blanco traslúcido y desenfoque */
+                            cardClassName="backdrop-blur-md bg-white/70 dark:bg-slate-900/60 rounded-3xl p-8 border border-white/60 dark:border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.15)] backdrop-saturate-150 w-full"
                         />
                     }
                 />
