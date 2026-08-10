@@ -3,6 +3,11 @@ import { useSetClassName } from "keycloakify/tools/useSetClassName";
 import type { ReactNode } from "react";
 import { useEffect } from "react";
 import defaultLogo from "../../assets/img/logo_2.png";
+
+// Importación directa de imágenes locales desde tu carpeta de assets
+import bgLightImg from "../../assets/login/login_blanco.png"; // Ajusta la extensión (.png/.jpg) según tu archivo
+import bgDarkImg from "../../assets/login/login_negro.jpeg";   // Ajusta la extensión (.png/.jpg) según tu archivo
+
 import { useI18n } from "../../i18n";
 import { useKcContext } from "../../KcContext";
 import { CenteredCardLayout } from "./layouts/CenteredCardLayout";
@@ -33,14 +38,12 @@ export function Template(props: TemplateProps) {
     const { kcClsx } = useKcClsx();
 
     const logoWhiteUrl =
-        resolveAssetUrl(kcContext.properties.SHADCN_THEME_LOGO_WHITE_URL) || defaultLogo;
+        resolveAssetUrl(kcContext.properties?.SHADCN_THEME_LOGO_WHITE_URL) || defaultLogo;
 
     const logoDarkUrl =
-        resolveAssetUrl(kcContext.properties.SHADCN_THEME_LOGO_DARK_URL) || defaultLogo;
-    const sideImageUrl = resolveAssetUrl(
-        kcContext.properties.SHADCN_THEME_SIDE_IMAGE_URL
-    );
-    const layout = kcContext.properties.SHADCN_THEME_LAYOUT;
+        resolveAssetUrl(kcContext.properties?.SHADCN_THEME_LOGO_DARK_URL) || defaultLogo;
+
+    const layout = kcContext.properties?.SHADCN_THEME_LAYOUT;
 
     useEffect(() => {
         document.title =
@@ -70,8 +73,8 @@ export function Template(props: TemplateProps) {
                             {...props}
                             logoWhiteUrl={logoWhiteUrl}
                             logoDarkUrl={logoDarkUrl}
-                            /* Modificado para lograr las esquinas redondeadas y la sombra pronunciada de la imagen */
-                            cardClassName="border border-border/40 bg-card rounded-3xl shadow-xl p-8 max-w-sm w-full mx-auto"
+                            // En Template.tsx -> case "two-column":
+cardClassName="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-slate-200/50 dark:border-slate-800/50 w-full"
                         />
                     }
                 />
@@ -88,23 +91,26 @@ export function Template(props: TemplateProps) {
                             cardClassName="border-none bg-transparent shadow-sm h-full"
                         />
                     }
-                    imageUrl={sideImageUrl}
+                    imageUrl={bgLightImg}
                 />
             );
         case "two-column":
         default:
             return (
                 <TwoColumnLayout
+                    lightBgUrl={bgLightImg}
+                    darkBgUrl={bgDarkImg}
+                    logoUrl={logoDarkUrl}
                     content={
                         <TemplateContent
                             {...props}
                             logoWhiteUrl={logoWhiteUrl}
                             logoDarkUrl={logoDarkUrl}
                             brandingVisibilityClassName="lg:hidden"
-                            cardClassName="border border-border/40 bg-card rounded-3xl shadow-xl p-8"
+                            /* Tarjeta blanca/oscura de Shadcn perfectamente limpia */
+                            cardClassName="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 border border-slate-200 dark:border-slate-800 w-full"
                         />
                     }
-                    logoUrl={logoDarkUrl}
                 />
             );
     }
