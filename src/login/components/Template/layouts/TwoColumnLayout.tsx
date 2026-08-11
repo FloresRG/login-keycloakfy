@@ -22,22 +22,23 @@ export function TwoColumnLayout(props: {
         <div className="relative min-h-svh w-full overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
 
             {/* 1. Topbar flotante (Fijo arriba a la izquierda) */}
-            <div className="absolute top-4 left-4 z-30 sm:top-6 sm:left-6">
+            {/* 1. Topbar flotante (Fijo arriba a la derecha) */}
+            <div className="absolute top-4 right-4 z-30 sm:top-6 sm:right-6">
                 <TemplateTopBar />
             </div>
 
             {/* 2. Logo Posgrado RESPONSIVO (Arriba a la izquierda) */}
-            <div className="absolute top-16 z-20 sm:top-20 sm:left-6 md:top-24 md:max-w-md lg:max-w-lg xl:max-w-xl pl-24 xl:pl-48">
+            <div className="absolute top-10 z-20 sm:top-20 sm:left-6 md:top-2 md:max-w-md lg:max-w-lg xl:max-w-xl pl-24 xl:pl-1">
                 <img
                     src={posgradoLogoLightUrl}
                     alt="Logo Posgrado"
-                    className="h-auto max-h-24 w-auto object-contain drop-shadow-md transition-all duration-300 dark:hidden sm:max-h-32 md:max-h-40 lg:max-h-52"
+                    className="h-auto max-h-20 w-auto object-contain drop-shadow-md transition-all duration-300 dark:hidden sm:max-h-32 md:max-h-40 lg:max-h-32"
                 />
                 <img
                     src={posgradoLogoDarkUrl}
                     alt="Logo Posgrado"
-                    className="hidden h-auto max-h-24 w-auto object-contain drop-shadow-md transition-all duration-300 dark:block sm:max-h-32 md:max-h-40 lg:max-h-52"
-                />
+                    className="hidden h-auto max-h-20 w-auto object-contain drop-shadow-md transition-all duration-300 dark:block sm:max-h-32 md:max-h-40 lg:max-h-32"
+                />  
             </div>
 
             {/* 3. Fondos (Modo Claro / Modo Oscuro) */}
@@ -49,15 +50,14 @@ export function TwoColumnLayout(props: {
                 className="absolute inset-0 bg-cover bg-center z-0 hidden dark:block"
                 style={{ backgroundImage: `url(${darkBgUrl})` }}
             />
-
             {/* 4. Contenedor principal del Formulario y Mensaje de Bienvenida */}
-            <div className="relative z-10 flex min-h-svh w-full flex-col items-center justify-center p-4 pt-52 sm:pt-52 md:pt-60 lg:items-end lg:p-8 lg:pr-20 xl:pr-32 2xl:pr-72">
+            <div className="relative z-10 flex min-h-svh w-full flex-col items-center justify-center p-4 pt-6 sm:pt-52 md:pt-60 lg:items-end lg:p-8 lg:pr-20 xl:pr-32 2xl:pr-72">
 
                 {/* Wrapper para alinear el título y el formulario sin colisionar */}
                 <div className="w-full max-w-md space-y-4">
 
-                    {/* Mensaje de Bienvenida Centrado con Ancho Libre */}
-                    <div className="w-full text-center px-2">
+                    {/* Mensaje de Bienvenida (Oculto en celular: hidden, Visible desde tablet/laptop: sm:block) */}
+                    <div className="hidden sm:block w-full text-center px-2">
                         <h1 className="text-3xl font-normal text-slate-100 dark:text-slate-100 drop-shadow-md leading-snug">
                             Bienvenido al{" "}
                             <span className="font-bold text-white block sm:inline">
@@ -73,19 +73,10 @@ export function TwoColumnLayout(props: {
 
                 </div>
             </div>
-            {/* 5. Logo Institucional Inferior */}
-            {logoUrl && (
-                <div className="absolute bottom-6 left-6 z-20 hidden lg:block">
-                    <img
-                        src={logoUrl}
-                        alt="Logo"
-                        className="h-12 w-auto object-contain drop-shadow-lg lg:h-16"
-                    />
-                </div>
-            )}
+
 
             {/* 6. Texto Flotante Inferior */}
-            <div className="absolute bottom-20 z-20 hidden lg:block max-w-sm left-60">
+            <div className="absolute bottom-5 z-20 hidden lg:block max-w-sm left-20">
                 <div className="relative pl-12">
 
                     {/* Comilla de Apertura */}

@@ -6,12 +6,12 @@ import { useI18n } from "../../i18n";
 import { useKcContext } from "../../KcContext";
 import { Languages } from "../ui/Langauges";
 
-  export function TemplateTopBar() {
+export function TemplateTopBar() {
     const { kcContext } = useKcContext();
     const { enabledLanguages } = useI18n();
 
     return (
-        <div className="absolute inset-x-4 top-4 z-20 flex items-center gap-2">
+        <div className="absolute top-4 right-4 z-20 flex items-center justify-end gap-2">
             <Button type="button" variant="outline" size="icon" asChild>
                 <a href={kcContext.client?.baseUrl ?? redirectUrlOrigin} aria-label="Home">
                     <FiHome />
