@@ -27,7 +27,7 @@ export function TwoColumnLayout(props: {
             </div>
 
             {/* 2. Logo Posgrado RESPONSIVO (Arriba a la izquierda) */}
-            <div className="absolute top-16  z-20 sm:top-20 sm:left-6 md:top-24 md:max-w-md lg:max-w-lg xl:max-w-xl pl-24 xl:pl-48">
+            <div className="absolute top-16 z-20 sm:top-20 sm:left-6 md:top-24 md:max-w-md lg:max-w-lg xl:max-w-xl pl-24 xl:pl-48">
                 <img
                     src={posgradoLogoLightUrl}
                     alt="Logo Posgrado"
@@ -50,13 +50,29 @@ export function TwoColumnLayout(props: {
                 style={{ backgroundImage: `url(${darkBgUrl})` }}
             />
 
-            {/* 4. Contenedor principal del Formulario */}
-            <div className="relative z-10 flex min-h-svh w-full items-center justify-center p-4 pt-52 sm:pt-52 md:pt-60 lg:justify-end lg:p-8 lg:pr-20 xl:pr-32 2xl:pr-72">
-                <main className="w-full max-w-md">
-                    {content}
-                </main>
-            </div>
+            {/* 4. Contenedor principal del Formulario y Mensaje de Bienvenida */}
+            <div className="relative z-10 flex min-h-svh w-full flex-col items-center justify-center p-4 pt-52 sm:pt-52 md:pt-60 lg:items-end lg:p-8 lg:pr-20 xl:pr-32 2xl:pr-72">
 
+                {/* Wrapper para alinear el título y el formulario sin colisionar */}
+                <div className="w-full max-w-md space-y-4">
+
+                    {/* Mensaje de Bienvenida Centrado con Ancho Libre */}
+                    <div className="w-full text-center px-2">
+                        <h1 className="text-3xl font-normal text-slate-100 dark:text-slate-100 drop-shadow-md leading-snug">
+                            Bienvenido al{" "}
+                            <span className="font-bold text-white block sm:inline">
+                                Sistema Integral de Posgrado UPEA
+                            </span>
+                        </h1>
+                    </div>
+
+                    {/* Tarjeta / Formulario de Keycloak */}
+                    <main className="w-full">
+                        {content}
+                    </main>
+
+                </div>
+            </div>
             {/* 5. Logo Institucional Inferior */}
             {logoUrl && (
                 <div className="absolute bottom-6 left-6 z-20 hidden lg:block">
@@ -69,17 +85,17 @@ export function TwoColumnLayout(props: {
             )}
 
             {/* 6. Texto Flotante Inferior */}
-            <div className="absolute bottom-20  z-20 hidden lg:block max-w-sm left-60">
-                <div className="relative pl-12 ">
+            <div className="absolute bottom-20 z-20 hidden lg:block max-w-sm left-60">
+                <div className="relative pl-12">
 
-                    {/* Comilla de Apertura (Arriba a la Izquierda) */}
+                    {/* Comilla de Apertura */}
                     <span className="absolute -top-5 -left-5 select-none font-serif text-8xl font-extrabold text-amber-400 leading-none pointer-events-none">
                         “
                     </span>
 
                     {/* Bloque de Texto */}
                     <div>
-                        <p className="font-semibold text-3xl text-slate-100 ">
+                        <p className="font-semibold text-3xl text-slate-100">
                             Educación de Posgrado
                         </p>
                         <p className="font-light text-2xl text-slate-300 drop-shadow-sm leading-relaxed mt-1">
@@ -88,7 +104,7 @@ export function TwoColumnLayout(props: {
                         </p>
                     </div>
 
-                    {/* Comilla de Cierre (Abajo a la Derecha) */}
+                    {/* Comilla de Cierre */}
                     <span className="absolute -bottom-12 -right-12 select-none font-serif text-8xl font-extrabold text-amber-400 leading-none pointer-events-none">
                         ”
                     </span>
