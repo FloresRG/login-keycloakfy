@@ -27,7 +27,7 @@ export function TwoColumnLayout(props: {
             </div>
 
             {/* 2. Logo Posgrado RESPONSIVO (Arriba a la izquierda) */}
-            <div className="absolute top-16 pl-36 z-20 sm:top-20 sm:left-6 md:top-24 md:max-w-md lg:max-w-lg xl:max-w-xl">
+            <div className="absolute top-16  z-20 sm:top-20 sm:left-6 md:top-24 md:max-w-md lg:max-w-lg xl:max-w-xl pl-24 xl:pl-48">
                 <img
                     src={posgradoLogoLightUrl}
                     alt="Logo Posgrado"
@@ -51,7 +51,7 @@ export function TwoColumnLayout(props: {
             />
 
             {/* 4. Contenedor principal del Formulario */}
-            <div className="relative z-10 flex min-h-svh w-full items-center justify-center p-4 pt-44 sm:pt-52 md:pt-60 lg:justify-end lg:p-8 lg:pr-20 xl:pr-32 2xl:pr-48">
+            <div className="relative z-10 flex min-h-svh w-full items-center justify-center p-4 pt-52 sm:pt-52 md:pt-60 lg:justify-end lg:p-8 lg:pr-20 xl:pr-32 2xl:pr-72">
                 <main className="w-full max-w-md">
                     {content}
                 </main>
