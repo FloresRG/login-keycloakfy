@@ -112,9 +112,7 @@ export function Template(props: TemplateProps) {
                             logoWhiteUrl={logoWhiteUrl}
                             logoDarkUrl={logoDarkUrl}
                             brandingVisibilityClassName="lg:hidden"
-                            /* Efecto Cristal (Glassmorphism) con borde blanco traslúcido y desenfoque */
-                            cardClassName="backdrop-blur-md bg-white/70 dark:bg-slate-900/60 rounded-3xl p-8 border border-white/60 dark:border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.15)] backdrop-saturate-150 w-full"
-                        />
+                               />
                     }
                 />
             );

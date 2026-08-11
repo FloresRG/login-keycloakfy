@@ -96,31 +96,7 @@ export function TemplateContent(props: TemplateContentProps) {
                 cardClassName
             )}
         >
-            {/* Avatar Central con Ondas Concéntricas */}
-            <div className="flex justify-center mb-4">
-                <div className="relative flex items-center justify-center p-3">
-                    {/* Anillos de ondas suaves detrás del avatar */}
-                    <div className="absolute inset-0 rounded-full border border-blue-400/20 scale-125" />
-                    <div className="absolute inset-0 rounded-full border border-blue-400/30 scale-110" />
-
-                    {/* Círculo blanco translúcido principal */}
-                    <div className="relative z-10 w-20 h-20 rounded-full bg-white/90 dark:bg-slate-800/90 shadow-md border border-white flex items-center justify-center text-[#1d4ed8]">
-                        <User className="w-10 h-10 stroke-[2.2]" />
-                    </div>
-                </div>
-            </div>
-
-            <CardHeader className="p-0 text-center mb-6">
-                <div className="flex flex-col items-center">
-                    {titleNode}
-                    {/* Línea decorativa dorada inferior */}
-                    <div className="w-8 h-[3px] bg-[#d97706] rounded-full mt-2 mb-2" />
-                </div>
-
-                <p className="text-xs font-normal text-slate-600 dark:text-slate-300">
-                    Accede a tu cuenta institucional
-                </p>
-            </CardHeader>
+         
 
             <CardContent className="p-0">
                 <div id="kc-content" className="flex flex-col gap-4">
