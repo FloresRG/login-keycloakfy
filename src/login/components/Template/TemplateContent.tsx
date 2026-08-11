@@ -1,7 +1,10 @@
+import { useRef, type ReactNode } from "react";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import { cn } from "@/components/lib/utils";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
     Tooltip,
     TooltipContent,
@@ -11,7 +14,6 @@ import {
 import { kcSanitize } from "@keycloakify/login-ui/kcSanitize";
 import { useKcClsx } from "@keycloakify/login-ui/useKcClsx";
 import { RotateCcw, User } from "lucide-react";
-import { type ReactNode } from "react";
 import { useI18n } from "../../i18n";
 import { useKcContext } from "../../KcContext";
 import type { TemplateProps } from "./Template";
@@ -27,7 +29,6 @@ export function TemplateContent(props: TemplateContentProps) {
     const {
         displayInfo = false,
         displayMessage = true,
-        displayRequiredFields = false,
         headerNode,
         socialProvidersNode = null,
         infoNode = null,
@@ -39,6 +40,30 @@ export function TemplateContent(props: TemplateContentProps) {
     const { auth, url, message, isAppInitiatedAction } = kcContext;
     const { msg, msgStr } = useI18n();
     const { kcClsx } = useKcClsx();
+
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    useGSAP(
+        () => {
+            const tl = gsap.timeline({ defaults: { ease: "back.out(1.2)" } });
+
+            // Entrada de la tarjeta Glassmorphism
+            tl.fromTo(
+                cardRef.current,
+                { opacity: 0, scale: 0.92, y: 30 },
+                { opacity: 1, scale: 1, y: 0, duration: 0.8 }
+            );
+
+            // Entrada secuencial (stagger) de los elementos dentro de la tarjeta
+            tl.fromTo(
+                ".gsap-card-item",
+                { opacity: 0, y: 15 },
+                { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: "power2.out" },
+                "-=0.4"
+            );
+        },
+        { scope: cardRef }
+    );
 
     const titleNode: ReactNode = !(
         auth !== undefined &&
@@ -86,8 +111,8 @@ export function TemplateContent(props: TemplateContentProps) {
 
     return (
         <Card
+            ref={cardRef}
             className={cn(
-                /* Tarjeta Glassmorphism Ultra Fina */
                 "backdrop-blur-xl bg-white/45 dark:bg-slate-900/40",
                 "rounded-[2.5rem] px-8 py-8",
                 "border border-white/70 dark:border-white/20",
@@ -96,72 +121,84 @@ export function TemplateContent(props: TemplateContentProps) {
                 cardClassName
             )}
         >
-         
-
             <CardContent className="p-0">
                 <div id="kc-content" className="flex flex-col gap-4">
+                    {/* Header/Título animado */}
+                    <div className="gsap-card-item">
+                        {titleNode}
+                    </div>
+
                     {displayMessage &&
                         message !== undefined &&
                         (message.type !== "warning" || !isAppInitiatedAction) && (
-                            <Alert 
-                                variant={message.type} 
-                                className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-white/80 rounded-2xl"
-                            >
-                                <AlertDescription>
-                                    <span
-                                        dangerouslySetInnerHTML={{
-                                            __html: kcSanitize(message.summary)
-                                        }}
-                                    />
-                                </AlertDescription>
-                            </Alert>
+                            <div className="gsap-card-item">
+                                <Alert
+                                    variant={message.type}
+                                    className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-white/80 rounded-2xl"
+                                >
+                                    <AlertDescription>
+                                        <span
+                                            dangerouslySetInnerHTML={{
+                                                __html: kcSanitize(message.summary)
+                                            }}
+                                        />
+                                    </AlertDescription>
+                                </Alert>
+                            </div>
                         )}
 
-                    {socialProvidersNode}
-                    
-                    {/* Contenido del Formulario (Inputs, Remember Me, Botón Submit) */}
-                    {children}
+                    {socialProvidersNode && (
+                        <div className="gsap-card-item">
+                            {socialProvidersNode}
+                        </div>
+                    )}
+
+                    {/* Formulario e Inputs */}
+                    <div className="gsap-card-item">
+                        {children}
+                    </div>
 
                     {auth !== undefined && auth.showTryAnotherWayLink && (
-                        <form
-                            id="kc-select-try-another-way-form"
-                            action={url.loginAction}
-                            method="post"
-                        >
-                            <div className={kcClsx("kcFormGroupClass")}>
-                                <input type="hidden" name="tryAnotherWay" value="on" />
-                                <Button
-                                    type="button"
-                                    className="w-full bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/60 hover:bg-white/70 shadow-sm rounded-xl"
-                                    variant="outline"
-                                    asChild
-                                >
-                                    <a
-                                        href="#"
-                                        id="try-another-way"
-                                        onClick={event => {
-                                            document.forms[
-                                                "kc-select-try-another-way-form" as never
-                                            ].submit();
-                                            event.preventDefault();
-                                            return false;
-                                        }}
+                        <div className="gsap-card-item">
+                            <form
+                                id="kc-select-try-another-way-form"
+                                action={url.loginAction}
+                                method="post"
+                            >
+                                <div className={kcClsx("kcFormGroupClass")}>
+                                    <input type="hidden" name="tryAnotherWay" value="on" />
+                                    <Button
+                                        type="button"
+                                        className="w-full bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/60 hover:bg-white/70 shadow-sm rounded-xl"
+                                        variant="outline"
+                                        asChild
                                     >
-                                        {msg("doTryAnotherWay")}
-                                    </a>
-                                </Button>
-                            </div>
-                        </form>
+                                        <a
+                                            href="#"
+                                            id="try-another-way"
+                                            onClick={event => {
+                                                document.forms[
+                                                    "kc-select-try-another-way-form" as never
+                                                ].submit();
+                                                event.preventDefault();
+                                                return false;
+                                            }}
+                                        >
+                                            {msg("doTryAnotherWay")}
+                                        </a>
+                                    </Button>
+                                </div>
+                            </form>
+                        </div>
                     )}
 
                     {displayInfo && (
-                        <div className="text-center text-xs text-slate-600 dark:text-slate-400 mt-1 font-medium">
+                        <div className="gsap-card-item text-center text-xs text-slate-600 dark:text-slate-400 mt-1 font-medium">
                             {infoNode}
                         </div>
                     )}
 
-                    {/* Enlaces al Pie de la Tarjeta */}
-                    <div className="flex items-center justify-center gap-2 pt-4 text-xs font-medium text-slate-600 dark:text-slate-300">
+                    <div className="gsap-card-item flex items-center justify-center gap-2 pt-4 text-xs font-medium text-slate-600 dark:text-slate-300">
                         <a href="#" className="hover:underline hover:text-blue-700">Ver Tutoriales</a>
                         <span>|</span>
                         <a href="#" className="hover:underline hover:text-blue-700">Manual de Usuario</a>

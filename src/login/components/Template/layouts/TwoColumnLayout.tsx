@@ -1,4 +1,7 @@
 import type { ReactNode } from "react";
+import { useRef } from "react";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import { TemplateTopBar } from "../TemplateTopBar";
 
 export function TwoColumnLayout(props: {
@@ -11,24 +14,56 @@ export function TwoColumnLayout(props: {
 }) {
     const {
         content,
-        logoUrl,
         lightBgUrl,
         darkBgUrl,
         posgradoLogoLightUrl,
         posgradoLogoDarkUrl
     } = props;
 
-    return (
-        <div className="relative min-h-svh w-full overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    const containerRef = useRef<HTMLDivElement>(null);
 
-            {/* 1. Topbar flotante (Fijo arriba a la izquierda) */}
-            {/* 1. Topbar flotante (Fijo arriba a la derecha) */}
+    useGSAP(
+        () => {
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+            // Animación de los Logos de Posgrado
+            tl.fromTo(
+                ".gsap-posgrado-logo",
+                { opacity: 0, y: -25, scale: 0.95 },
+                { opacity: 1, y: 0, scale: 1, duration: 0.8 }
+            );
+
+            // Animación del Título de Bienvenida
+            tl.fromTo(
+                ".gsap-welcome-title",
+                { opacity: 0, y: -20 },
+                { opacity: 1, y: 0, duration: 0.7 },
+                "-=0.5"
+            );
+
+            // Animación del Quote/Texto Flotante Inferior
+            tl.fromTo(
+                ".gsap-quote-container",
+                { opacity: 0, x: -30 },
+                { opacity: 1, x: 0, duration: 0.8 },
+                "-=0.4"
+            );
+        },
+        { scope: containerRef }
+    );
+
+    return (
+        <div
+            ref={containerRef}
+            className="relative min-h-svh w-full overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100"
+        >
+            {/* Topbar flotante */}
             <div className="absolute top-4 right-4 z-30 sm:top-6 sm:right-6">
                 <TemplateTopBar />
             </div>
 
-            {/* 2. Logo Posgrado RESPONSIVO (Arriba a la izquierda) */}
-            <div className="absolute top-10 z-20 sm:top-20 sm:left-6 md:top-2 md:max-w-md lg:max-w-lg xl:max-w-xl pl-4 xl:pl-1">
+            {/* Logo Posgrado RESPONSIVO */}
+            <div className="gsap-posgrado-logo absolute top-10 z-20 sm:top-20 sm:left-6 md:top-2 md:max-w-md lg:max-w-lg xl:max-w-xl pl-4 xl:pl-1">
                 <img
                     src={posgradoLogoLightUrl}
                     alt="Logo Posgrado"
@@ -38,10 +73,10 @@ export function TwoColumnLayout(props: {
                     src={posgradoLogoDarkUrl}
                     alt="Logo Posgrado"
                     className="hidden h-auto max-h-20 w-auto object-contain drop-shadow-md transition-all duration-300 dark:block sm:max-h-32 md:max-h-40 lg:max-h-32"
-                />  
+                />
             </div>
 
-            {/* 3. Fondos (Modo Claro / Modo Oscuro) */}
+            {/* Fondos */}
             <div
                 className="absolute inset-0 bg-cover bg-center z-0 dark:hidden"
                 style={{ backgroundImage: `url(${lightBgUrl})` }}
@@ -50,14 +85,12 @@ export function TwoColumnLayout(props: {
                 className="absolute inset-0 bg-cover bg-center z-0 hidden dark:block"
                 style={{ backgroundImage: `url(${darkBgUrl})` }}
             />
-            {/* 4. Contenedor principal del Formulario y Mensaje de Bienvenida */}
+
+            {/* Contenedor Principal */}
             <div className="relative z-10 flex min-h-svh w-full flex-col items-center justify-center p-4 pt-6 sm:pt-52 md:pt-60 lg:items-end lg:p-8 lg:pr-20 xl:pr-32 2xl:pr-72">
-
-                {/* Wrapper para alinear el título y el formulario sin colisionar */}
                 <div className="w-full max-w-md space-y-4">
-
-                    {/* Mensaje de Bienvenida (Oculto en celular: hidden, Visible desde tablet/laptop: sm:block) */}
-                    <div className="hidden sm:block w-full text-center px-2">
+                    {/* Mensaje de Bienvenida */}
+                    <div className="gsap-welcome-title hidden sm:block w-full text-center px-2">
                         <h1 className="text-3xl font-normal text-slate-100 dark:text-slate-100 drop-shadow-md leading-snug">
                             Bienvenido al{" "}
                             <span className="font-bold text-white block sm:inline">
@@ -66,25 +99,20 @@ export function TwoColumnLayout(props: {
                         </h1>
                     </div>
 
-                    {/* Tarjeta / Formulario de Keycloak */}
+                    {/* Formulario de Keycloak */}
                     <main className="w-full">
                         {content}
                     </main>
-
                 </div>
             </div>
 
-
-            {/* 6. Texto Flotante Inferior */}
-            <div className="absolute bottom-5 z-20 hidden lg:block max-w-sm left-20">
+            {/* Texto Flotante Inferior */}
+            <div className="gsap-quote-container absolute bottom-5 z-20 hidden lg:block max-w-sm left-20">
                 <div className="relative pl-12">
-
-                    {/* Comilla de Apertura */}
                     <span className="absolute -top-5 -left-5 select-none font-serif text-8xl font-extrabold text-amber-400 leading-none pointer-events-none">
                         “
                     </span>
 
-                    {/* Bloque de Texto */}
                     <div>
                         <p className="font-semibold text-3xl text-slate-100">
                             Educación de Posgrado
@@ -95,11 +123,9 @@ export function TwoColumnLayout(props: {
                         </p>
                     </div>
 
-                    {/* Comilla de Cierre */}
                     <span className="absolute -bottom-12 -right-12 select-none font-serif text-8xl font-extrabold text-amber-400 leading-none pointer-events-none">
                         ”
                     </span>
-
                 </div>
             </div>
         </div>
