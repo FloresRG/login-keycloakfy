@@ -1,7 +1,11 @@
 import type { ReactNode } from "react";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+
+import * as THREE from "three";
+import VantaNet from "vanta/dist/vanta.net.min";
+
 import { TemplateTopBar } from "../TemplateTopBar";
 
 export function TwoColumnLayout(props: {
@@ -14,26 +18,56 @@ export function TwoColumnLayout(props: {
 }) {
     const {
         content,
-        lightBgUrl,
-        darkBgUrl,
         posgradoLogoLightUrl,
         posgradoLogoDarkUrl
     } = props;
 
     const containerRef = useRef<HTMLDivElement>(null);
+    const vantaRef = useRef<HTMLDivElement>(null);
+    const [vantaEffect, setVantaEffect] = useState<any>(null);
+
+    useEffect(() => {
+        if (!vantaEffect && vantaRef.current) {
+            // Resuelve la función de inicialización si viene como default export o CJS module
+            const initNet = typeof VantaNet === "function" ? VantaNet : (VantaNet as any).default;
+
+            if (typeof initNet === "function") {
+                const effect = initNet({
+                    el: vantaRef.current,
+                    THREE: THREE,
+                    mouseControls: true,
+                    touchControls: true,
+                    gyroControls: false,
+                    minHeight: 200.00,
+                    minWidth: 200.00,
+                    scale: 1.00,
+                    scaleMobile: 1.00,
+                    color: 0x3b82f6,
+                    backgroundColor: 0x0f172a,
+                    points: 10.00,
+                    maxDistance: 22.00,
+                    spacing: 16.00,
+                    showDots: true
+                });
+                setVantaEffect(effect);
+            }
+        }
+
+        return () => {
+            if (vantaEffect) vantaEffect.destroy();
+        };
+    }, [vantaEffect]);
 
     useGSAP(
         () => {
             const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-            // Animación de los Logos de Posgrado
             tl.fromTo(
                 ".gsap-posgrado-logo",
                 { opacity: 0, y: -25, scale: 0.95 },
                 { opacity: 1, y: 0, scale: 1, duration: 0.8 }
             );
 
-            // Animación del Título de Bienvenida
             tl.fromTo(
                 ".gsap-welcome-title",
                 { opacity: 0, y: -20 },
@@ -41,7 +75,6 @@ export function TwoColumnLayout(props: {
                 "-=0.5"
             );
 
-            // Animación del Quote/Texto Flotante Inferior
             tl.fromTo(
                 ".gsap-quote-container",
                 { opacity: 0, x: -30 },
@@ -55,14 +88,19 @@ export function TwoColumnLayout(props: {
     return (
         <div
             ref={containerRef}
-            className="relative min-h-svh w-full overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100"
+            className="relative min-h-svh w-full overflow-hidden bg-slate-950 text-slate-100"
         >
-            {/* Topbar flotante */}
+            <div
+                ref={vantaRef}
+                className="absolute inset-0 z-0 pointer-events-auto opacity-70"
+            />
+
+            <div className="absolute inset-0 z-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/40 pointer-events-none" />
+
             <div className="absolute top-4 right-4 z-30 sm:top-6 sm:right-6">
                 <TemplateTopBar />
             </div>
 
-            {/* Logo Posgrado RESPONSIVO */}
             <div className="gsap-posgrado-logo absolute top-10 z-20 sm:top-20 sm:left-6 md:top-2 md:max-w-md lg:max-w-lg xl:max-w-xl pl-4 xl:pl-1">
                 <img
                     src={posgradoLogoLightUrl}
@@ -76,22 +114,10 @@ export function TwoColumnLayout(props: {
                 />
             </div>
 
-            {/* Fondos */}
-            <div
-                className="absolute inset-0 bg-cover bg-center z-0 dark:hidden"
-                style={{ backgroundImage: `url(${lightBgUrl})` }}
-            />
-            <div
-                className="absolute inset-0 bg-cover bg-center z-0 hidden dark:block"
-                style={{ backgroundImage: `url(${darkBgUrl})` }}
-            />
-
-            {/* Contenedor Principal */}
             <div className="relative z-10 flex min-h-svh w-full flex-col items-center justify-center p-4 pt-6 sm:pt-52 md:pt-60 lg:items-end lg:p-8 lg:pr-20 xl:pr-32 2xl:pr-72">
                 <div className="w-full max-w-md space-y-4">
-                    {/* Mensaje de Bienvenida */}
                     <div className="gsap-welcome-title hidden sm:block w-full text-center px-2">
-                        <h1 className="text-3xl font-normal text-slate-100 dark:text-slate-100 drop-shadow-md leading-snug">
+                        <h1 className="text-3xl font-normal text-slate-100 drop-shadow-md leading-snug">
                             Bienvenido al{" "}
                             <span className="font-bold text-white block sm:inline">
                                 Sistema Integral de Posgrado UPEA
@@ -99,14 +125,12 @@ export function TwoColumnLayout(props: {
                         </h1>
                     </div>
 
-                    {/* Formulario de Keycloak */}
                     <main className="w-full">
                         {content}
                     </main>
                 </div>
             </div>
 
-            {/* Texto Flotante Inferior */}
             <div className="gsap-quote-container absolute bottom-5 z-20 hidden lg:block max-w-sm left-20">
                 <div className="relative pl-12">
                     <span className="absolute -top-5 -left-5 select-none font-serif text-8xl font-extrabold text-amber-400 leading-none pointer-events-none">
