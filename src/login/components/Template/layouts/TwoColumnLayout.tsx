@@ -28,7 +28,7 @@ export function TwoColumnLayout(props: {
             </div>
 
             {/* 2. Logo Posgrado RESPONSIVO (Arriba a la izquierda) */}
-            <div className="absolute top-10 z-20 sm:top-20 sm:left-6 md:top-2 md:max-w-md lg:max-w-lg xl:max-w-xl pl-24 xl:pl-1">
+            <div className="absolute top-10 z-20 sm:top-20 sm:left-6 md:top-2 md:max-w-md lg:max-w-lg xl:max-w-xl pl-4 xl:pl-1">
                 <img
                     src={posgradoLogoLightUrl}
                     alt="Logo Posgrado"
