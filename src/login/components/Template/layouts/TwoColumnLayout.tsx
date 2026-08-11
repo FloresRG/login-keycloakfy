@@ -6,13 +6,13 @@ export function TwoColumnLayout(props: {
     logoUrl?: string;
     lightBgUrl: string;
     darkBgUrl: string;
-    posgradoLogoLightUrl: string; // Logo posgrado modo claro
-    posgradoLogoDarkUrl: string;  // Logo posgrado modo oscuro
+    posgradoLogoLightUrl: string;
+    posgradoLogoDarkUrl: string;
 }) {
-    const { 
-        content, 
-        logoUrl, 
-        lightBgUrl, 
+    const {
+        content,
+        logoUrl,
+        lightBgUrl,
         darkBgUrl,
         posgradoLogoLightUrl,
         posgradoLogoDarkUrl
@@ -21,63 +21,79 @@ export function TwoColumnLayout(props: {
     return (
         <div className="relative min-h-svh w-full overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
 
-            {/* 1. Topbar flotante (Se mantiene arriba a la izquierda) */}
-            <div className="absolute top-4 left-4 z-20">
+            {/* 1. Topbar flotante (Fijo arriba a la izquierda) */}
+            <div className="absolute top-4 left-4 z-30 sm:top-6 sm:left-6">
                 <TemplateTopBar />
             </div>
 
-            {/* Logo Posgrado FLOTANTE (Arriba a la Izquierda, debajo del Topbar) */}
-            <div className="absolute top-32 left-4 z-20  md:left-8">
+            {/* 2. Logo Posgrado RESPONSIVO (Arriba a la izquierda) */}
+            <div className="absolute top-16 pl-36 z-20 sm:top-20 sm:left-6 md:top-24 md:max-w-md lg:max-w-lg xl:max-w-xl">
                 <img
                     src={posgradoLogoLightUrl}
                     alt="Logo Posgrado"
-                    className="h-60 w-xl object-contain drop-shadow-md dark:hidden"
+                    className="h-auto max-h-24 w-auto object-contain drop-shadow-md transition-all duration-300 dark:hidden sm:max-h-32 md:max-h-40 lg:max-h-52"
                 />
                 <img
                     src={posgradoLogoDarkUrl}
                     alt="Logo Posgrado"
-                    className="h-60 w-xl object-contain drop-shadow-md hidden dark:block"
+                    className="hidden h-auto max-h-24 w-auto object-contain drop-shadow-md transition-all duration-300 dark:block sm:max-h-32 md:max-h-40 lg:max-h-52"
                 />
             </div>
 
-            {/* 2. Imagen de fondo MODO CLARO */}
+            {/* 3. Fondos (Modo Claro / Modo Oscuro) */}
             <div
                 className="absolute inset-0 bg-cover bg-center z-0 dark:hidden"
                 style={{ backgroundImage: `url(${lightBgUrl})` }}
             />
-
-            {/* 3. Imagen de fondo MODO OSCURO */}
             <div
                 className="absolute inset-0 bg-cover bg-center z-0 hidden dark:block"
                 style={{ backgroundImage: `url(${darkBgUrl})` }}
             />
 
-            <div className="relative z-10 flex min-h-svh w-full items-center justify-center p-4 md:p-8 lg:justify-end lg:pr-32 xl:pr-96">
+            {/* 4. Contenedor principal del Formulario */}
+            <div className="relative z-10 flex min-h-svh w-full items-center justify-center p-4 pt-44 sm:pt-52 md:pt-60 lg:justify-end lg:p-8 lg:pr-20 xl:pr-32 2xl:pr-48">
                 <main className="w-full max-w-md">
                     {content}
                 </main>
             </div>
 
-            {/* 5. Logo institucional flotante (Abajo Izquierda) */}
+            {/* 5. Logo Institucional Inferior */}
             {logoUrl && (
-                <div className="absolute bottom-8 left-8 z-20 hidden lg:block">
+                <div className="absolute bottom-6 left-6 z-20 hidden lg:block">
                     <img
                         src={logoUrl}
                         alt="Logo"
-                        className="h-16 object-contain drop-shadow-lg"
+                        className="h-12 w-auto object-contain drop-shadow-lg lg:h-16"
                     />
                 </div>
             )}
 
-            {/* TEXTO FLOTANTE (Abajo a la Izquierda, justo encima del logo institucional) */}
-            <div className="absolute bottom-28 left-32 z-20 hidden lg:block max-w-xs">
-                <p className="text-xl md:text-2xl font-semibold text-slate-800 dark:text-slate-100 drop-shadow-md leading-tight">
-                    Educación de Posgrado
-                </p>
-                <p className="text-base md:text-lg font-light text-slate-700 dark:text-slate-300 drop-shadow-sm mt-1 leading-snug">
-                    es la llave que abre las puertas <br />
-                    de tu futuro
-                </p>
+            {/* 6. Texto Flotante Inferior */}
+            <div className="absolute bottom-20  z-20 hidden lg:block max-w-sm left-60">
+                <div className="relative pl-12 ">
+
+                    {/* Comilla de Apertura (Arriba a la Izquierda) */}
+                    <span className="absolute -top-5 -left-5 select-none font-serif text-8xl font-extrabold text-amber-400 leading-none pointer-events-none">
+                        “
+                    </span>
+
+                    {/* Bloque de Texto */}
+                    <div>
+                        <p className="font-semibold text-3xl text-slate-100 ">
+                            Educación de Posgrado
+                        </p>
+                        <p className="font-light text-2xl text-slate-300 drop-shadow-sm leading-relaxed mt-1">
+                            es la llave que abre las puertas <br />
+                            <span className="font-semibold text-amber-500 dark:text-amber-400">del futuro</span>
+                        </p>
+                    </div>
+
+                    {/* Comilla de Cierre (Abajo a la Derecha) */}
+                    <span className="absolute -bottom-12 -right-12 select-none font-serif text-8xl font-extrabold text-amber-400 leading-none pointer-events-none">
+                        ”
+                    </span>
+
+                </div>
             </div>
         </div>
     );
